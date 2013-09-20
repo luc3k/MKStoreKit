@@ -31,7 +31,7 @@
 
 
 #import "MKSKSubscriptionProduct.h"
-#import "NSData+MKBase64.h"
+#import "NSData+Base64.h"
 #if ! __has_feature(objc_arc)
 #error MKStoreKit is ARC only. Either turn on ARC for the project or use -fobjc-arc flag
 #endif
@@ -102,7 +102,7 @@
     [df setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];            
     [df setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
     NSDate *purchasedDate = [df dateFromString: purchasedDateString];        
-    int numberOfDays = [purchasedDate timeIntervalSinceNow] / (-86400.0);            
+    int numberOfDays = (int)([purchasedDate timeIntervalSinceNow] / (-86400.0));            
     return (self.subscriptionDays > numberOfDays);        
   }
 }

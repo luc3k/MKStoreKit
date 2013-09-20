@@ -38,7 +38,7 @@
 #import "SFHFKeychainUtils.h"
 #import "MKSKSubscriptionProduct.h"
 #import "MKSKProduct.h"
-#import "NSData+MKBase64.h"
+#import "NSData+Base64.h"
 #if ! __has_feature(objc_arc)
 #error MKStoreKit is ARC only. Either turn on ARC for the project or use -fobjc-arc flag
 #endif
@@ -295,7 +295,7 @@ static MKStoreManager* _sharedStoreManager;
 {
 	[self.purchasableObjects addObjectsFromArray:response.products];
 	
-#ifndef NDEBUG
+#ifdef DEBUG
 	for(int i=0;i<[self.purchasableObjects count];i++)
 	{
 		SKProduct *product = [self.purchasableObjects objectAtIndex:i];
@@ -371,7 +371,7 @@ static MKStoreManager* _sharedStoreManager;
 		// you might probably need to change this line to suit your UI needs
 		NSString *description = [NSString stringWithFormat:@"%@ (%@)",[product localizedTitle], formattedString];
 		
-#ifndef NDEBUG
+#ifdef DEBUG
 		NSLog(@"Product %d - %@", i, description);
 #endif
 		[productDescriptions addObject: description];
@@ -585,7 +585,7 @@ static MKStoreManager* _sharedStoreManager;
     
     switch (download.downloadState) {
       case SKDownloadStateFinished:
-#ifndef NDEBUG
+#ifdef DEBUG
         NSLog(@"Download finished: %@", [download description]);
 #endif
         [self provideContent:download.transaction.payment.productIdentifier
@@ -747,7 +747,7 @@ static MKStoreManager* _sharedStoreManager;
 - (void) failedTransaction: (SKPaymentTransaction *)transaction
 {
   
-#ifndef NDEBUG
+#ifdef DEBUG
   NSLog(@"Failed transaction: %@", [transaction description]);
   NSLog(@"error: %@", transaction.error);
 #endif
@@ -773,7 +773,7 @@ static MKStoreManager* _sharedStoreManager;
     
     [[SKPaymentQueue defaultQueue] startDownloads:transaction.downloads];
     // We don't have content yet, and we can't finish the transaction
-#ifndef NDEBUG
+#ifdef DEBUG
     NSLog(@"Download(s) started: %@", [transaction description]);
 #endif
     return;
@@ -805,7 +805,7 @@ static MKStoreManager* _sharedStoreManager;
     
     [[SKPaymentQueue defaultQueue] startDownloads:transaction.downloads];
     // We don't have content yet, and we can't finish the transaction
-#ifndef NDEBUG
+#ifdef DEBUG
     NSLog(@"Download(s) started: %@", [transaction description]);
 #endif
     return;
